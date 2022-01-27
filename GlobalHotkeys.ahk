@@ -1,11 +1,11 @@
-#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-; #Warn  ; Enable warnings to assist with detecting common errors.
-SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
-SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+;Default AHK env settings.
+#NoEnv
+SendMode Input
+SetWorkingDir %A_ScriptDir%
 #SingleInstance, Force
-ControlMusicBee = 1
 
-DetectHiddenWindows, On
+ControlMusicBee = 1 ; Global toggle for controlling MusicBee or Spotify
+DetectHiddenWindows, On ; Detect spotify if it's mimimized to the system tray
 
 ; Get the HWND of the Spotify main window.
 getSpotifyHwnd() {
@@ -33,56 +33,6 @@ sendMusicBeeOrSpotify(mKey, sKey) {
 	return
 }
 
-;For youtube controls
-F21::
-	Send ^w ;close tab
-return
-
-F17::
-	Send f ;fullscreen
-return
-
-F13::
-	Send g ;2x speed using Video Speed Controller extension
-return
-
-F22::
-	Send j ;rewind 10 secs
-return
-
-F18::
-	Send k ;pause
-return
-
-F14::
-	Send l ;forward 10 secs
-return
-
-;For VSCode debug controls
-^F22::
-	Send ^{Numpad1} ;
-return
-
-^F18::
-	Send ^{Numpad2}
-return
-
-^F14::
-	Send ^{Numpad3}
-return
-
-^F21::
-	Send ^{Numpad4}
-return
-
-^F17::
-	Send ^{Numpad5}
-return
-
-^F13::
-	Send ^{Numpad6}
-return
-
 ;For MusicBee and spotify controls
 +^F11:: ;used for when no mouse is avaialble
 ^F19::
@@ -95,7 +45,7 @@ $F15:: ; with mouse
 	sendMusicBeeOrSpotify("{F15}", "^{Right}")
 return
 
-; Pause
+; Pause Song
 ^F11::
 $F19::
 	sendMusicBeeOrSpotify("{F19}", "{Space}")
@@ -127,12 +77,62 @@ $F24::
 	sendMusicBeeOrSpotify("{F24}", "+{Left}")
 return
 
-;For MusicBee status display when no mouse is available
+; For MusicBee status display when no mouse is available
 ^F9::
 	Send {F20}
 return
 
-;Disable numlock, could be used for another hotkey
+; Disable numlock, could be used for another hotkey
 NumLock::
 return
 
+; For youtube controls
+F21::
+	Send ^w ; Close tab
+return
+
+F17::
+	Send f ; Fullscreen
+return
+
+F13::
+	Send g ; 2x speed using Video Speed Controller extension
+return
+
+F22::
+	Send j ; Rewind 10 secs
+return
+
+F18::
+	Send k ; Pause
+return
+
+F14::
+	Send l ; Forward 10 secs
+return
+
+; For VSCode debug controls
+; Numpad allows use of controls when no mouse is available.
+^F22::
+	Send ^{Numpad1} ; Step over
+return
+
+^F18::
+	Send ^{Numpad2} ; Step into
+return
+
+^F14::
+	Send ^{Numpad3} ; Step out
+return
+
+^F21::
+	Send ^{Numpad4} ; Start debugging
+return
+
+^F17::
+	Send ^{Numpad5} ; Restart debugging
+return
+
+^F13::
+	Send ^{Numpad6} ; Stop debugging
+return
